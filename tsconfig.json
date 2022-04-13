@@ -4,7 +4,8 @@
     "module": "commonjs",
     "baseUrl": ".",
     "paths": {
-      "components/*": ["components/*"]
+      "components/*": ["components/*"],
+      "@db/*": ["db/*"]
     },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
