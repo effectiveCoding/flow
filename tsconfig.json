@@ -6,7 +6,8 @@
     "paths": {
       "@components/*": ["components/*"],
       "@db/*": ["db/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@styles/*": ["styles/*"]
     },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
