@@ -1,15 +1,15 @@
 import React, { ReactElement } from 'react'
-import { SessionProvider } from 'next-auth/react'
 
 import { pageProps } from '@utils/pageProps'
+import { Providers } from '@components/providers'
 
 const App = ({ Component, pageProps: { session, ...props } }: pageProps) => {
   const getPageLayout = Component.pageLayout ?? ((page: ReactElement) => page)
 
   return (
-    <SessionProvider session={session}>
+    <Providers session={session}>
       {getPageLayout(<Component {...props} />)}
-    </SessionProvider>
+    </Providers>
   )
 }
 
