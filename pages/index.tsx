@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import Welcome from 'components/Welcome'
+import MainLayout from '@components/layouts/MainLayout'
 
 const Home = () => {
   return (
@@ -9,5 +10,7 @@ const Home = () => {
     </>
   )
 }
+
+Home.pageLayout = (page: ReactElement) => <MainLayout>{page}</MainLayout>
 
 export default Home
