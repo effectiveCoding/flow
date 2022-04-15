@@ -5,6 +5,8 @@ import { SessionProvider } from 'next-auth/react'
 
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
+import { Button } from '@components/overides/buttonStyleConfig'
+
 type ProvidersProps = {
   session?: Session | null
   children: ReactNode
@@ -14,6 +16,9 @@ const theme = extendTheme({
   fonts: {
     heading: 'Inter, sans-serif',
     body: 'Inter, sans-serif'
+  },
+  components: {
+    Button
   }
 })
 
