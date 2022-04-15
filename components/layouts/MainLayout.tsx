@@ -1,3 +1,4 @@
+import Sidenav from '@components/navs/Sidenav'
 import React, { ReactNode } from 'react'
 
 type MainLayoutProps = {
@@ -7,8 +8,7 @@ type MainLayoutProps = {
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <>
-      <h1>MainLayout</h1>
-      {children}
+      <Sidenav>{children}</Sidenav>
     </>
   )
 }
