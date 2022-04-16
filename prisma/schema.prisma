@@ -48,6 +48,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  spaces        Space[]
 
   @@map("users")
 }
@@ -60,4 +61,16 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model Space {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  owner       User     @relation(fields: [ownerId], references: [id])
+  ownerId     String
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @updatedAt
+
+  @@map("space")
 }

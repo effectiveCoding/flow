@@ -14,9 +14,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         clientId: `${process.env.GOOGLE_CLIENT_ID}`,
         clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`
       })
-    ],
-    session: {
-      strategy: 'jwt'
-    }
+    ]
   })
 }

@@ -1,58 +1,70 @@
 import {
   FlexProps,
   Flex,
-  Text,
-  useColorModeValue,
   IconButton,
   HStack,
-  Menu,
-  MenuButton,
-  Avatar,
-  VStack,
-  Box,
-  MenuList,
-  MenuItem,
-  MenuDivider
+  Button,
+  useDisclosure
 } from '@chakra-ui/react'
 import AvatarMenu from '@components/AvatarMenu'
 import Brand from '@components/Brand'
+import CreateSpaceModal from '@components/modal/CreateSpaceModal'
 import { BiBell, BiMenu } from 'react-icons/bi'
 
 interface MobileProps extends FlexProps {
   onOpen: () => void
 }
 const SidenavMobile = ({ onOpen, ...rest }: MobileProps) => {
+  const { isOpen, onClose, onOpen: onSpaceModalOpen } = useDisclosure()
+
   return (
-    <Flex
-      ml={{ base: 0, md: 60 }}
-      px={{ base: 4, md: 4 }}
-      height="20"
-      alignItems="center"
-      justifyContent={{ base: 'space-between', md: 'flex-end' }}
-      {...rest}
-    >
-      <IconButton
-        display={{ base: 'flex', md: 'none' }}
-        onClick={onOpen}
-        variant="outline"
-        fontSize={'20'}
-        aria-label="open menu"
-        icon={<BiMenu />}
-      />
-
-      <Brand fontWeight={'extrabold'} display={{ base: 'flex', md: 'none' }} />
-
-      <HStack spacing={{ base: '3', md: '6' }}>
+    <>
+      <Flex
+        ml={{ base: 0, md: 60 }}
+        px={{ base: 4, md: 4 }}
+        height="20"
+        alignItems="center"
+        justifyContent={{ base: 'space-between', md: 'flex-end' }}
+        {...rest}
+      >
         <IconButton
-          size="lg"
-          variant="ghost"
+          display={{ base: 'flex', md: 'none' }}
+          onClick={onOpen}
+          variant="outline"
           fontSize={'20'}
           aria-label="open menu"
-          icon={<BiBell />}
+          icon={<BiMenu />}
         />
-        <AvatarMenu />
-      </HStack>
-    </Flex>
+
+        <Brand
+          fontWeight={'extrabold'}
+          display={{ base: 'flex', md: 'none' }}
+        />
+
+        <HStack spacing={{ base: '2', md: '3' }}>
+          <Button
+            colorScheme={'cyan'}
+            color={'white'}
+            onClick={onSpaceModalOpen}
+          >
+            Create
+          </Button>
+          <IconButton
+            size="lg"
+            variant="ghost"
+            fontSize={'20'}
+            aria-label="open menu"
+            icon={<BiBell />}
+          />
+          <AvatarMenu />
+        </HStack>
+      </Flex>
+      <CreateSpaceModal
+        title="Create new Space"
+        isOpen={isOpen}
+        onClose={onClose}
+      />
+    </>
   )
 }
 
