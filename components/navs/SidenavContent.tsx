@@ -1,4 +1,4 @@
-import { Box, BoxProps, CloseButton, Flex, Text } from '@chakra-ui/react'
+import { Box, BoxProps, CloseButton, Flex } from '@chakra-ui/react'
 import Brand from '@components/Brand'
 import Link from 'next/link'
 import React from 'react'
@@ -7,8 +7,9 @@ import {
   BiHomeHeart,
   BiCompass,
   BiTrendingUp,
-  BiBookBookmark,
-  BiCog
+  BiCog,
+  BiBookHeart,
+  BiBookmarkAlt
 } from 'react-icons/bi'
 import SidenavLink from './SidenavLink'
 
@@ -20,9 +21,10 @@ type SidenavItemProperties = {
 
 const sidenavItems: SidenavItemProperties[] = [
   { href: '/', label: 'Home', icon: BiHomeHeart },
+  { href: '/space', label: 'My Space', icon: BiBookHeart },
   { href: '/', label: 'Explore', icon: BiCompass },
   { href: '/', label: 'Trending', icon: BiTrendingUp },
-  { href: '/', label: 'Saved', icon: BiBookBookmark },
+  { href: '/', label: 'Saved', icon: BiBookmarkAlt },
   { href: '/', label: 'Settings', icon: BiCog }
 ]
 
