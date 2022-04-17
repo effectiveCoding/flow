@@ -9,6 +9,8 @@ const Home = () => {
   )
 }
 
-Home.pageLayout = (page: ReactElement) => <MainLayout>{page}</MainLayout>
+Home.pageLayout = (page: ReactElement) => (
+  <MainLayout title="Capstone Proto - Home">{page}</MainLayout>
+)
 
 export default Home
