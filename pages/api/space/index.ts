@@ -9,7 +9,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   switch (method) {
     case 'GET':
-      res.send({ message: 'NOT IMPLEMENTED YET' })
+      const userSpace = await prisma.space.findMany({
+        where: {
+          owner: {
+            email: session?.user?.email
+          }
+        }
+      })
+      res.send({ message: userSpace })
       break
     case 'POST':
       // TODO: add validation here!
