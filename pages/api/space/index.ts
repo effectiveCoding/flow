@@ -1,38 +1,30 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '@db/prisma'
 import { getSession } from 'next-auth/react'
+
+import { createSpace, getAllAsociatedSpace } from '@lib/spaceOperations'
+import { UNAUTHORIZED_REQUEST } from '@utils/constants'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body
   const method = req.method
   const session = await getSession({ req })
 
+  if (!session) {
+    return res.status(401).send({ message: UNAUTHORIZED_REQUEST })
+  }
+
+  const email = session?.user?.email!
+
   switch (method) {
     case 'GET':
-      const userSpace = await prisma.space.findMany({
-        where: {
-          owner: {
-            email: session?.user?.email
-          }
-        }
-      })
-      res.send({ message: userSpace })
+      const userSpace = await getAllAsociatedSpace(email)
+      res.send({ userSpace })
       break
     case 'POST':
-      // TODO: add validation here!
       const { name, description } = body
-      const space = await prisma.space.create({
-        data: {
-          name,
-          description,
-          owner: {
-            connect: {
-              email: session?.user?.email!
-            }
-          }
-        }
-      })
-      if (space) {
+      // TODO: add validation here!
+      const createdSpace = await createSpace(email, { name, description })
+      if (!createdSpace) {
         return res
           .status(200)
           .send({ message: 'Horay! space created successful.' })
