@@ -18,13 +18,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case 'GET':
       const userSpace = await getAllAsociatedSpace(email)
-      res.send({ userSpace })
+      res.send({ space: userSpace })
       break
     case 'POST':
       const { name, description } = body
       // TODO: add validation here!
       const createdSpace = await createSpace(email, { name, description })
-      if (!createdSpace) {
+      if (createdSpace) {
         return res
           .status(200)
           .send({ message: 'Horay! space created successful.' })
