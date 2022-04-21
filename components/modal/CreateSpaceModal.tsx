@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { Form, Formik, FormikHelpers } from 'formik'
 import FormInput from '@components/FormInputs'
+import { useSWRConfig } from 'swr'
 
 type BaseModalProps = {
   title: string
@@ -35,6 +36,7 @@ const CreateSpaceModal = ({
   ...props
 }: BaseModalProps) => {
   const toast = useToast()
+  const { mutate } = useSWRConfig()
 
   const initialValue: SpaceFormField = {
     name: '',
@@ -55,6 +57,7 @@ const CreateSpaceModal = ({
     const data = await request.json()
 
     if (request.status === 200) {
+      mutate('/api/space')
       onClose()
       toast({
         title: data?.message,

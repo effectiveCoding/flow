@@ -9,20 +9,26 @@ import {
   Grid,
   GridItem,
   Button,
-  useDisclosure
+  useDisclosure,
+  VStack,
+  Icon,
+  HStack
 } from '@chakra-ui/react'
 
 import useSWR from 'swr'
 import Card from '@components/Card'
 import CreateSpaceModal from '@components/modal/CreateSpaceModal'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { getSession } from 'next-auth/react'
+import { BiPlus } from 'react-icons/bi'
 
-const Space = () => {
+const Space = ({ space }: any) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
 
   const { data } = useSWR(
     '/api/space',
     async key => await (await fetch(key)).json(),
-    { refreshInterval: 1000 }
+    { fallbackData: space }
   )
 
   return (
@@ -36,7 +42,10 @@ const Space = () => {
         </Box>
         <Spacer />
         <Button colorScheme="cyan" color="white" onClick={onOpen}>
-          Create
+          <HStack spacing={2}>
+            <BiPlus />
+            <Text>Create space</Text>
+          </HStack>
         </Button>
       </Flex>
       <Grid
@@ -45,7 +54,7 @@ const Space = () => {
       >
         {data?.space?.map((space: any) => (
           <GridItem key={space.id}>
-            <Card name={space?.name} />
+            <Card name={space?.name} description={space?.description} />
           </GridItem>
         ))}
       </Grid>
@@ -61,5 +70,19 @@ const Space = () => {
 Space.pageLayout = (page: ReactElement) => (
   <MainLayout title="Capstone Proto - Home">{page}</MainLayout>
 )
+
+export const getServerSideProps: GetServerSideProps = async ({
+  req
+}: GetServerSidePropsContext) => {
+  const space = await fetch(`${process.env.NEXTAUTH_URL}/api/space`, {
+    method: 'GET'
+  })
+
+  return {
+    props: {
+      space: await space.json()
+    }
+  }
+}
 
 export default Space
