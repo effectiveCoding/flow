@@ -15,8 +15,6 @@ interface MobileProps extends FlexProps {
   onOpen: () => void
 }
 const SidenavMobile = ({ onOpen, ...rest }: MobileProps) => {
-  const { isOpen, onClose, onOpen: onSpaceModalOpen } = useDisclosure()
-
   return (
     <>
       <Flex
@@ -42,13 +40,6 @@ const SidenavMobile = ({ onOpen, ...rest }: MobileProps) => {
         />
 
         <HStack spacing={{ base: '2', md: '3' }}>
-          <Button
-            colorScheme={'cyan'}
-            color={'white'}
-            onClick={onSpaceModalOpen}
-          >
-            Create
-          </Button>
           <IconButton
             size="lg"
             variant="ghost"
@@ -59,11 +50,6 @@ const SidenavMobile = ({ onOpen, ...rest }: MobileProps) => {
           <AvatarMenu />
         </HStack>
       </Flex>
-      <CreateSpaceModal
-        title="Create new Space"
-        isOpen={isOpen}
-        onClose={onClose}
-      />
     </>
   )
 }

@@ -7,13 +7,18 @@ import {
   Text,
   Spacer,
   Grid,
-  GridItem
+  GridItem,
+  Button,
+  useDisclosure
 } from '@chakra-ui/react'
 
 import useSWR from 'swr'
 import Card from '@components/Card'
+import CreateSpaceModal from '@components/modal/CreateSpaceModal'
 
 const Space = () => {
+  const { isOpen, onClose, onOpen } = useDisclosure()
+
   const { data } = useSWR(
     '/api/space',
     async key => await (await fetch(key)).json(),
@@ -30,6 +35,9 @@ const Space = () => {
           </Text>
         </Box>
         <Spacer />
+        <Button colorScheme="cyan" color="white" onClick={onOpen}>
+          Create
+        </Button>
       </Flex>
       <Grid
         gridTemplateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)' }}
@@ -41,6 +49,11 @@ const Space = () => {
           </GridItem>
         ))}
       </Grid>
+      <CreateSpaceModal
+        title="Create new Space"
+        isOpen={isOpen}
+        onClose={onClose}
+      />
     </Box>
   )
 }
