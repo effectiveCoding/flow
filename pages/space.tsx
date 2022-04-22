@@ -21,6 +21,8 @@ import CreateSpaceModal from '@components/modal/CreateSpaceModal'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { getSession } from 'next-auth/react'
 import { BiPlus } from 'react-icons/bi'
+import { SpaceGrid } from '@components/SpaceGrid'
+import { SpaceCard } from '@components/SpaceCard'
 
 const Space = ({ space }: any) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
@@ -48,16 +50,13 @@ const Space = ({ space }: any) => {
           </HStack>
         </Button>
       </Flex>
-      <Grid
-        gridTemplateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)' }}
-        gap={6}
-      >
-        {data?.space?.map((space: any) => (
-          <GridItem key={space.id}>
-            <Card name={space?.name} description={space?.description} />
-          </GridItem>
+
+      <SpaceGrid>
+        {data.space?.map((space: any) => (
+          <SpaceCard key={space.id} name={space?.name} cover={'/doodle.jpg'} />
         ))}
-      </Grid>
+      </SpaceGrid>
+
       <CreateSpaceModal
         title="Create new Space"
         isOpen={isOpen}
