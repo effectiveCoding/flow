@@ -6,26 +6,22 @@ import {
   Heading,
   Text,
   Spacer,
-  Grid,
-  GridItem,
   Button,
   useDisclosure,
-  VStack,
-  Icon,
   HStack
 } from '@chakra-ui/react'
 
 import useSWR from 'swr'
-import Card from '@components/Card'
 import CreateSpaceModal from '@components/modal/CreateSpaceModal'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import { getSession } from 'next-auth/react'
 import { BiPlus } from 'react-icons/bi'
 import { SpaceGrid } from '@components/SpaceGrid'
 import { SpaceCard } from '@components/SpaceCard'
+import { useRouter } from 'next/router'
 
 const Space = ({ space }: any) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
+  const router = useRouter()
 
   const { data } = useSWR(
     '/api/space',
@@ -53,7 +49,14 @@ const Space = ({ space }: any) => {
 
       <SpaceGrid>
         {data.space?.map((space: any) => (
-          <SpaceCard key={space.id} name={space?.name} cover={'/doodle.jpg'} />
+          <SpaceCard
+            key={space.id}
+            name={space?.name}
+            cover={'/doodle.jpg'}
+            onClick={() => {
+              router.push(`/space/${space.id}`)
+            }}
+          />
         ))}
       </SpaceGrid>
 

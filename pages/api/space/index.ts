@@ -9,10 +9,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method = req.method
   const session = await getSession({ req })
 
-  if (!session) {
-    return res.status(401).send({ message: UNAUTHORIZED_REQUEST })
-  }
-
   const email = session?.user?.email!
 
   switch (method) {

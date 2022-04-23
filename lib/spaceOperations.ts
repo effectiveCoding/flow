@@ -21,3 +21,9 @@ export const createSpace = async (
     }
   })
 }
+
+export const getSpaceById = async (id: string) => {
+  return await prisma.space.findUnique({
+    where: { id }
+  })
+}
