@@ -7,6 +7,7 @@ import {
 } from 'next'
 import { __baseURL } from '@utils/constants'
 import MainLayout from '@components/layouts/MainLayout'
+import { Heading } from '@chakra-ui/react'
 
 export const getStaticPaths: GetStaticPaths =
   async ({}: GetStaticPathsContext) => {
@@ -37,7 +38,11 @@ export const getStaticProps: GetStaticProps = async ({
 }
 
 const SpaceContent = ({ space }: any) => {
-  return <>{JSON.stringify(space)}</>
+  return (
+    <>
+      <Heading>{space?.name}</Heading>
+    </>
+  )
 }
 
 SpaceContent.pageLayout = (page: ReactElement) => (

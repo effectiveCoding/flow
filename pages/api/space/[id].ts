@@ -1,13 +1,38 @@
-import { getSpaceById } from '@lib/spaceOperations'
+import { Space } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { prisma } from '@db/prisma'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query
+type SpaceApiRequest = NextApiRequest & {
+  query: { id: string }
+}
 
+type SpaceErrorResponse = {
+  error?: string
+}
+
+const handler = async (
+  req: SpaceApiRequest,
+  res: NextApiResponse<Space | SpaceErrorResponse>
+) => {
   if (req.method === 'GET') {
-    const space = await getSpaceById(`${id}`)
-    return res.status(200).send({ space })
+    return await getSpace(req, res)
   }
+}
+
+async function getSpace(
+  req: SpaceApiRequest,
+  res: NextApiResponse<Space | SpaceErrorResponse>
+) {
+  const { id } = req.query
+  const space = await prisma?.space.findUnique({ where: { id } })
+
+  if (!space) {
+    return res
+      .status(404)
+      .send({ error: 'The requested query is not available' })
+  }
+
+  res.json(space)
 }
 
 export default handler
