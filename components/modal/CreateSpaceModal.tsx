@@ -60,13 +60,13 @@ const CreateSpaceModal = ({
       mutate('/api/space')
       onClose()
       toast({
-        title: data?.message,
+        title: `Horay! space created successfuly`,
         position: 'bottom',
         isClosable: true
       })
     } else {
       toast({
-        title: data?.message,
+        title: data?.error,
         position: 'bottom',
         status: 'error',
         isClosable: true
