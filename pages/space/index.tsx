@@ -13,20 +13,20 @@ import {
 
 import useSWR from 'swr'
 import CreateSpaceModal from '@components/modal/CreateSpaceModal'
-import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { GetServerSideProps } from 'next'
 import { BiPlus } from 'react-icons/bi'
 import { SpaceGrid } from '@components/SpaceGrid'
 import { SpaceCard } from '@components/SpaceCard'
 import { useRouter } from 'next/router'
 
-const Space = ({ space }: any) => {
+const Space = ({ spaces }: any) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
   const router = useRouter()
 
   const { data } = useSWR(
     '/api/space',
     async key => await (await fetch(key)).json(),
-    { fallbackData: space }
+    { fallbackData: spaces }
   )
 
   return (
@@ -48,7 +48,7 @@ const Space = ({ space }: any) => {
       </Flex>
 
       <SpaceGrid>
-        {data.space?.map((space: any) => (
+        {data?.map((space: any) => (
           <SpaceCard
             key={space.id}
             name={space?.name}
@@ -73,17 +73,15 @@ Space.pageLayout = (page: ReactElement) => (
   <MainLayout title="Capstone Proto - Home">{page}</MainLayout>
 )
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req
-}: GetServerSidePropsContext) => {
-  const space = await fetch(`${process.env.NEXTAUTH_URL}/api/space`, {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const req = await fetch(`${process.env.NEXTAUTH_URL}/api/space`, {
     method: 'GET'
   })
 
+  const spaces = await req.json()
+
   return {
-    props: {
-      space: await space.json()
-    }
+    props: { spaces }
   }
 }
 

@@ -16,7 +16,7 @@ export const getStaticPaths: GetStaticPaths =
     })
     const response = await request.json()
 
-    const paths = response.space.map((space: any) => ({
+    const paths = response.map((space: any) => ({
       params: { id: space.id }
     }))
 
