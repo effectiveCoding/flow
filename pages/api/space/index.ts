@@ -60,6 +60,7 @@ async function createSpace(
     data: {
       name: result.name,
       description: result.description,
+      post: { create: {} },
       owner: { connect: { email } }
     }
   })
@@ -74,7 +75,9 @@ async function getAsociatedSpace(
   const session = await getSession({ req })
   const email = session?.user?.email!
 
-  const spaces = await prisma.space.findMany({ where: { owner: { email } } })
+  const spaces = await prisma.space.findMany({
+    where: { owner: { email } }
+  })
 
   if (!spaces) {
     return res.status(500).send({ error: 'Unable to get all asociated space' })

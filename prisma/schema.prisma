@@ -64,13 +64,37 @@ model VerificationToken {
 }
 
 model Space {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   name        String
   description String?
-  owner       User     @relation(fields: [ownerId], references: [id])
+  post        Post    @relation(fields: [postId], references: [id])
+  postId      String  @unique
+  owner       User    @relation(fields: [ownerId], references: [id])
   ownerId     String
+
   dateCreated DateTime @default(now())
   dateUpdated DateTime @updatedAt
 
-  @@map("space")
+  @@map("spaces")
+}
+
+model Post {
+  id            String         @id @default(cuid())
+  announcements Announcement[]
+  space         Space?
+
+  @@map("posts")
+}
+
+model Announcement {
+  id      String  @id @default(cuid())
+  //TODO: change content to JSON on postgres to use tiptap
+  content String
+  Post    Post?   @relation(fields: [postId], references: [id])
+  postId  String?
+
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @updatedAt
+
+  @@map("announcements")
 }
