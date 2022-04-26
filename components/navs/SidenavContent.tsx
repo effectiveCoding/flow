@@ -21,7 +21,7 @@ type SidenavItemProperties = {
 
 const sidenavItems: SidenavItemProperties[] = [
   { href: '/', label: 'Home', icon: BiHomeHeart },
-  { href: '/space', label: 'My Space', icon: BiBookHeart },
+  { href: '/room', label: 'My Space', icon: BiBookHeart },
   { href: '/', label: 'Explore', icon: BiCompass },
   { href: '/', label: 'Trending', icon: BiTrendingUp },
   { href: '/', label: 'Saved', icon: BiBookmarkAlt },

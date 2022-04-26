@@ -1,7 +1,8 @@
 import { prisma } from '@db/prisma'
-import { Announcement } from '@prisma/client'
+import { Post } from '@prisma/client'
 import Joi from 'joi'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getSession } from 'next-auth/react'
 
 type PostApiRequest = NextApiRequest & {
   body: {
@@ -32,7 +33,7 @@ async function createPost(req: PostApiRequest, res: NextApiResponse) {
 
 function validateSpaceInputs(req: PostApiRequest) {
   const schama = Joi.object({
-    content: Joi.string().min(5).max(100).required()
+    content: Joi.object().required()
   })
 
   const { error, value } = schama.validate(req.body)
@@ -44,20 +45,21 @@ function validateSpaceInputs(req: PostApiRequest) {
 
 async function createAnnouncement(
   req: PostApiRequest,
-  res: NextApiResponse<Announcement | { error: string }>
+  res: NextApiResponse<Post | { error: string }>
 ) {
-  const { pid: id } = req.query
-
+  const session = await getSession({ req })
   const result = validateSpaceInputs(req)
 
   if (typeof result === 'string') {
     return res.status(400).json({ error: result })
   }
 
-  const annoucement = await prisma.announcement.create({
+  const annoucement = await prisma.post.create({
     data: {
       content: result.content,
-      Post: { connect: { id } }
+      publisher: {
+        connect: { email: session?.user?.email! }
+      }
     }
   })
 

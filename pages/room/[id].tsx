@@ -80,9 +80,6 @@ const SpaceContent = ({ space }: any) => {
           )}
         </Formik>
       </VStack>
-      {space.post.announcements.map((a: any) => (
-        <h1>{a.content}</h1>
-      ))}
     </>
   )
 }

@@ -3,20 +3,19 @@ import Joi from 'joi'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
-import { Space } from '@prisma/client'
+import { Classroom } from '@prisma/client'
 import { prisma } from '@db/prisma'
+import { INTERNAL_SERVER, UNSUPPORTED_MEDIA } from '@utils/constants'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method = req.method
 
   if (method === 'GET') {
-    return await getAsociatedSpace(req, res)
+    return await getClassrooms(req, res)
   } else if (method === 'POST') {
-    return await createSpace(req, res)
+    return await createRoom(req, res)
   } else {
-    return res
-      .status(415)
-      .send({ message: 'Oh no! we are unable to process this request.' })
+    return res.status(415).send({ error: UNSUPPORTED_MEDIA })
   }
 }
 
@@ -41,9 +40,9 @@ function validateSpaceInputs(req: SpaceApiRequest) {
   return value
 }
 
-async function createSpace(
+async function createRoom(
   req: SpaceApiRequest,
-  res: NextApiResponse<Space | { error: string }>
+  res: NextApiResponse<Classroom | { error: string }>
 ) {
   const session = await getSession({ req })
   const email = session?.user?.email!
@@ -56,11 +55,10 @@ async function createSpace(
   }
 
   // if all fields is valid then proceed with the creation.
-  const space = await prisma.space.create({
+  const space = await prisma.classroom.create({
     data: {
       name: result.name,
       description: result.description,
-      post: { create: {} },
       owner: { connect: { email } }
     }
   })
@@ -68,22 +66,20 @@ async function createSpace(
   res.json(space)
 }
 
-async function getAsociatedSpace(
+async function getClassrooms(
   req: NextApiRequest,
-  res: NextApiResponse<Space[] | { error: string }>
+  res: NextApiResponse<Classroom[] | { error: string }>
 ) {
   const session = await getSession({ req })
   const email = session?.user?.email!
 
-  const spaces = await prisma.space.findMany({
+  const spaces = await prisma.classroom.findMany({
     where: { owner: { email } },
-    include: {
-      owner: true
-    }
+    include: { owner: true }
   })
 
   if (!spaces) {
-    return res.status(500).send({ error: 'Unable to get all asociated space' })
+    return res.status(500).send({ error: INTERNAL_SERVER })
   }
 
   res.json(spaces)

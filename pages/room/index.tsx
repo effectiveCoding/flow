@@ -54,7 +54,7 @@ const Space = ({ spaces }: any) => {
             name={space?.name}
             cover={'/doodle.jpg'}
             onClick={() => {
-              router.push(`/space/${space.id}`)
+              router.push(`/room/${space.id}`)
             }}
           />
         ))}
