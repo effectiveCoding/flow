@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Account {
@@ -41,14 +41,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  spaces        Space[]
+  spaces        Classroom[]
+  posts         Post[]
 
   @@map("users")
 }
@@ -63,38 +64,28 @@ model VerificationToken {
   @@map("verificationtokens")
 }
 
-model Space {
-  id          String  @id @default(cuid())
+model Classroom {
+  id          String   @id @default(cuid())
   name        String
   description String?
-  post        Post    @relation(fields: [postId], references: [id])
-  postId      String  @unique
-  owner       User    @relation(fields: [ownerId], references: [id])
+  owner       User     @relation(fields: [ownerId], references: [id])
   ownerId     String
-
+  posts       Post[]
   dateCreated DateTime @default(now())
   dateUpdated DateTime @updatedAt
 
-  @@map("spaces")
+  @@map("rooms")
 }
 
 model Post {
-  id            String         @id @default(cuid())
-  announcements Announcement[]
-  space         Space?
+  id          String     @id @default(cuid())
+  content     Json
+  room        Classroom? @relation(fields: [roomId], references: [id])
+  roomId      String?
+  publisher   User       @relation(fields: [publisherId], references: [id])
+  publisherId String
+  dateCreated DateTime   @default(now())
+  dateUpdated DateTime   @updatedAt
 
   @@map("posts")
-}
-
-model Announcement {
-  id      String  @id @default(cuid())
-  //TODO: change content to JSON on postgres to use tiptap
-  content String
-  Post    Post?   @relation(fields: [postId], references: [id])
-  postId  String?
-
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @updatedAt
-
-  @@map("announcements")
 }
