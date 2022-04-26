@@ -8,7 +8,7 @@ import {
 import { __baseURL } from '@utils/constants'
 import MainLayout from '@components/layouts/MainLayout'
 import { Button, Heading, VStack } from '@chakra-ui/react'
-import { Form, Formik, FormikHandlers, FormikHelpers } from 'formik'
+import { Form, Formik, FormikHelpers } from 'formik'
 import FormInput from '@components/FormInputs'
 
 export const getStaticPaths: GetStaticPaths =
@@ -41,11 +41,11 @@ export const getStaticProps: GetStaticProps = async ({
 
 // TODO: Add types here for space
 const SpaceContent = ({ space }: any) => {
+  console.log(space)
+
   const initialValue = {
     content: ''
   }
-
-  console.log(space)
 
   const onSubmit = async (value: any, helper: FormikHelpers<any>) => {
     const req = await fetch(
@@ -59,8 +59,6 @@ const SpaceContent = ({ space }: any) => {
       }
     )
     const annoucement = await req.json()
-
-    console.log(annoucement)
   }
 
   return (
@@ -82,6 +80,9 @@ const SpaceContent = ({ space }: any) => {
           )}
         </Formik>
       </VStack>
+      {space.post.announcements.map((a: any) => (
+        <h1>{a.content}</h1>
+      ))}
     </>
   )
 }

@@ -24,7 +24,14 @@ async function getSpace(
   res: NextApiResponse<Space | SpaceErrorResponse>
 ) {
   const { id } = req.query
-  const space = await prisma?.space.findUnique({ where: { id } })
+  const space = await prisma?.space.findUnique({
+    where: { id },
+    include: {
+      post: {
+        include: { announcements: true }
+      }
+    }
+  })
 
   if (!space) {
     return res
