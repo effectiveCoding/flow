@@ -76,7 +76,10 @@ async function getAsociatedSpace(
   const email = session?.user?.email!
 
   const spaces = await prisma.space.findMany({
-    where: { owner: { email } }
+    where: { owner: { email } },
+    include: {
+      owner: true
+    }
   })
 
   if (!spaces) {
