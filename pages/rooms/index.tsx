@@ -8,11 +8,9 @@ import {
   Text,
   Spacer,
   Button,
-  useDisclosure,
   HStack
 } from '@chakra-ui/react'
 
-import CreateSpaceModal from '@components/modal/CreateSpaceModal'
 import { GetServerSideProps } from 'next'
 import { BiPlus } from 'react-icons/bi'
 import { RoomGrid } from '@components/RoomGrid'
@@ -20,7 +18,6 @@ import { RoomCard } from '@components/RoomCard'
 import { useRouter } from 'next/router'
 
 const Space = ({ spaces }: any) => {
-  const { isOpen, onClose, onOpen } = useDisclosure()
   const router = useRouter()
 
   const { data } = useSWR(
@@ -30,7 +27,7 @@ const Space = ({ spaces }: any) => {
   )
 
   return (
-    <Box px={{ base: '4', md: '5' }}>
+    <Box>
       <Flex w="full" mb={10} display="flex" alignItems="center">
         <Box>
           <Heading mb={2}>My Classrooms</Heading>
@@ -39,7 +36,11 @@ const Space = ({ spaces }: any) => {
           </Text>
         </Box>
         <Spacer />
-        <Button colorScheme="cyan" color="white" onClick={onOpen}>
+        <Button
+          colorScheme="cyan"
+          color="white"
+          onClick={() => router.push('/rooms/create')}
+        >
           <HStack spacing={2}>
             <BiPlus />
             <Text>Create</Text>
@@ -59,12 +60,6 @@ const Space = ({ spaces }: any) => {
           />
         ))}
       </RoomGrid>
-
-      <CreateSpaceModal
-        title="Create new Space"
-        isOpen={isOpen}
-        onClose={onClose}
-      />
     </Box>
   )
 }

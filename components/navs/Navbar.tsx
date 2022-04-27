@@ -5,7 +5,9 @@ import Image from 'next/image'
 import {
   Box,
   Button,
+  Flex,
   HStack,
+  IconButton,
   Menu,
   MenuButton,
   MenuDivider,
@@ -14,13 +16,19 @@ import {
   Text
 } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import { BiArrowBack } from 'react-icons/bi'
+import { useRouter } from 'next/router'
 
 type NavbarMenuItem = {
   label: string
   href: string
 }
 
-export const Navbar = () => {
+type NavbarProps = {
+  createLayout?: boolean
+}
+
+export const Navbar = ({ createLayout }: NavbarProps) => {
   const { data: session, status } = useSession()
 
   const menuItems: NavbarMenuItem[] = [
@@ -30,11 +38,22 @@ export const Navbar = () => {
     }
   ]
 
+  const router = useRouter()
+
   return (
-    <Box as="nav" px={{ base: '4', md: '5' }}>
-      <Box py={{ base: '4', md: '5' }}>
-        <HStack justify="space-between">
-          <Text fontWeight="semibold">Capstone</Text>
+    <Box as="nav" px={{ base: '4', md: '20' }} mb={{ base: '4', md: '5' }}>
+      <Box py={{ base: '2', md: '3' }}>
+        <Flex align="center" justify="space-between">
+          {createLayout ? (
+            <IconButton
+              fontSize={'20'}
+              aria-label="navigate back"
+              icon={<BiArrowBack />}
+              onClick={() => router.back()}
+            />
+          ) : (
+            <Text fontWeight="semibold">Capstone</Text>
+          )}
           {session && (
             <Menu>
               <MenuButton
@@ -49,7 +68,9 @@ export const Navbar = () => {
                 {menuItems.map(item => (
                   <MenuItem key={item.label}>
                     <Link href={item.href} passHref>
-                      <a>{item.label}</a>
+                      <Box as="a" display="block" w="full">
+                        {item.label}
+                      </Box>
                     </Link>
                   </MenuItem>
                 ))}
@@ -63,7 +84,7 @@ export const Navbar = () => {
               Sign In
             </Button>
           )}
-        </HStack>
+        </Flex>
       </Box>
     </Box>
   )
