@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import Head from 'next/head'
 
 import Sidenav from '@components/navs/Sidenav'
+import { Navbar } from '@components/navs/Navbar'
 
 type MainLayoutProps = {
   title?: string
@@ -14,7 +15,9 @@ const MainLayout = ({ title, children }: MainLayoutProps) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <Sidenav>{children}</Sidenav>
+      {/* <Sidenav>{children}</Sidenav> */}
+      <Navbar />
+      {children}
     </>
   )
 }
