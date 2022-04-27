@@ -19,13 +19,13 @@ type SpaceCardProps = {
   onClick?: () => void
 }
 
-export const SpaceCard = ({ name, cover, onClick, root }: SpaceCardProps) => {
+export const RoomCard = ({ name, cover, onClick, root }: SpaceCardProps) => {
   return (
     <Stack spacing={useBreakpointValue({ base: '4', md: '5' })} {...root}>
       <Box position="relative">
         <AspectRatio ratio={4 / 3}>
           <Box borderRadius={useBreakpointValue({ base: 'md', md: 'xl' })}>
-            <Image src={cover} layout="fill" />
+            <Image src={cover} layout="fill" priority={true} />
           </Box>
         </AspectRatio>
         <HStack spacing={1} py="5">

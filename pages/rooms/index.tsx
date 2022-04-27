@@ -1,3 +1,4 @@
+import useSWR from 'swr'
 import React, { ReactElement } from 'react'
 import MainLayout from '@components/layouts/MainLayout'
 import {
@@ -11,12 +12,11 @@ import {
   HStack
 } from '@chakra-ui/react'
 
-import useSWR from 'swr'
 import CreateSpaceModal from '@components/modal/CreateSpaceModal'
 import { GetServerSideProps } from 'next'
 import { BiPlus } from 'react-icons/bi'
-import { SpaceGrid } from '@components/SpaceGrid'
-import { SpaceCard } from '@components/SpaceCard'
+import { RoomGrid } from '@components/RoomGrid'
+import { RoomCard } from '@components/RoomCard'
 import { useRouter } from 'next/router'
 
 const Space = ({ spaces }: any) => {
@@ -30,26 +30,26 @@ const Space = ({ spaces }: any) => {
   )
 
   return (
-    <Box mr={{ base: '0', md: '10' }}>
+    <Box px={{ base: '4', md: '5' }}>
       <Flex w="full" mb={10} display="flex" alignItems="center">
         <Box>
-          <Heading mb={2}>My Space</Heading>
+          <Heading mb={2}>My Classrooms</Heading>
           <Text color="gray.500" fontWeight="medium">
-            Collection of Space you participated into!
+            Collection of classes you participated into!
           </Text>
         </Box>
         <Spacer />
         <Button colorScheme="cyan" color="white" onClick={onOpen}>
           <HStack spacing={2}>
             <BiPlus />
-            <Text>Create space</Text>
+            <Text>Create</Text>
           </HStack>
         </Button>
       </Flex>
 
-      <SpaceGrid>
+      <RoomGrid>
         {data?.map((space: any) => (
-          <SpaceCard
+          <RoomCard
             key={space.id}
             name={space?.name}
             cover={'/doodle.jpg'}
@@ -58,7 +58,7 @@ const Space = ({ spaces }: any) => {
             }}
           />
         ))}
-      </SpaceGrid>
+      </RoomGrid>
 
       <CreateSpaceModal
         title="Create new Space"

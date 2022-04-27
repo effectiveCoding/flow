@@ -1,4 +1,6 @@
 import React from 'react'
+
+import Link from 'next/link'
 import Image from 'next/image'
 import {
   Box,
@@ -13,8 +15,20 @@ import {
 } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
+type NavbarMenuItem = {
+  label: string
+  href: string
+}
+
 export const Navbar = () => {
   const { data: session, status } = useSession()
+
+  const menuItems: NavbarMenuItem[] = [
+    {
+      label: 'Classrooms',
+      href: '/rooms'
+    }
+  ]
 
   return (
     <Box as="nav" px={{ base: '4', md: '5' }}>
@@ -32,7 +46,13 @@ export const Navbar = () => {
                 <Image src={session?.user?.image!} width={39} height={39} />
               </MenuButton>
               <MenuList display="block">
-                <MenuItem>Classrooms</MenuItem>
+                {menuItems.map(item => (
+                  <MenuItem key={item.label}>
+                    <Link href={item.href} passHref>
+                      <a>{item.label}</a>
+                    </Link>
+                  </MenuItem>
+                ))}
                 <MenuDivider />
                 <MenuItem onClick={() => signOut()}>Sign Out</MenuItem>
               </MenuList>
