@@ -14,7 +14,7 @@ import {
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 export const Navbar = () => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
 
   return (
     <Box as="nav" px={{ base: '4', md: '5' }}>
@@ -38,7 +38,7 @@ export const Navbar = () => {
               </MenuList>
             </Menu>
           )}
-          {!session && (
+          {!session && status !== 'loading' && (
             <Button variant="solid" colorScheme="blue" onClick={() => signIn()}>
               Sign In
             </Button>
