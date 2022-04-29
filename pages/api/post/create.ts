@@ -1,41 +1,26 @@
-import { prisma } from '@db/prisma'
-import { Post } from '@prisma/client'
 import Joi from 'joi'
+
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
+
+import { Post } from '@prisma/client'
+
+import { prisma } from '@db/prisma'
+import { INTERNAL_SERVER, UNSUPPORTED_MEDIA } from '@utils/constants'
 
 type PostApiRequest = NextApiRequest & {
   body: {
     content: string
   }
   query: {
-    id: string
-    pid: string
-    type: string
+    cid: string
   }
 }
 
-const handler = async (req: PostApiRequest, res: NextApiResponse) => {
-  return createPost(req, res)
-}
-
-async function createPost(req: PostApiRequest, res: NextApiResponse) {
-  const { id, type } = req.query
-
-  switch (type) {
-    case 'annoucement':
-      return await createAnnouncement(req, res)
-    default:
-      res.status(404).json({ error: 'Unable to process the requested object' })
-      break
-  }
-}
-
-function validateSpaceInputs(req: PostApiRequest) {
+function validate(req: PostApiRequest) {
   const schama = Joi.object({
     content: Joi.object().required()
   })
-
   const { error, value } = schama.validate(req.body)
 
   if (error) return error.message
@@ -43,27 +28,41 @@ function validateSpaceInputs(req: PostApiRequest) {
   return value
 }
 
-async function createAnnouncement(
+const handler = async (req: PostApiRequest, res: NextApiResponse) => {
+  const method = req.method
+  if (method === 'POST') {
+    return await createPost(req, res)
+  } else {
+    return res.status(415).json({ error: UNSUPPORTED_MEDIA })
+  }
+}
+
+async function createPost(
   req: PostApiRequest,
   res: NextApiResponse<Post | { error: string }>
 ) {
+  const postData = validate(req)
   const session = await getSession({ req })
-  const result = validateSpaceInputs(req)
 
-  if (typeof result === 'string') {
-    return res.status(400).json({ error: result })
-  }
+  const email = session?.user?.email!
+  const id = req.query.cid
 
-  const annoucement = await prisma.post.create({
+  if (typeof postData === 'string')
+    return res.status(400).json({ error: postData })
+
+  const post = await prisma.post.create({
     data: {
-      content: result.content,
-      publisher: {
-        connect: { email: session?.user?.email! }
-      }
+      content: postData.content,
+      publisher: { connect: { email } },
+      room: { connect: { id } }
     }
   })
 
-  res.json(annoucement)
+  if (!post) {
+    return res.status(500).json({ error: INTERNAL_SERVER })
+  }
+
+  res.json(post)
 }
 
 export default handler

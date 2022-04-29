@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -14,6 +14,7 @@ import {
   BiPaperclip,
   BiUnderline
 } from 'react-icons/bi'
+import { useRouter } from 'next/router'
 
 const extensions: Extension[] = [
   StarterKit,
@@ -29,15 +30,31 @@ const extensions: Extension[] = [
 
 export const PostContentEditor = () => {
   const { data: session } = useSession()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const router = useRouter()
 
   const editor = useEditor({
     extensions
   })
 
-  const submitPost = () => {
+  const submitPost = async () => {
+    setIsLoading(true)
     if (editor) {
       const json = editor.getJSON()
       json.type = 'post'
+
+      const request = await fetch(`/api/post/create?cid=${router.query.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: json })
+      })
+
+      const post = await request.json()
+
+      console.log(post)
+      setIsLoading(false)
     }
   }
 
@@ -87,7 +104,13 @@ export const PostContentEditor = () => {
           />
           <IconButton fontSize="20" icon={<BiListUl />} aria-label="list" />
         </HStack>
-        <Button variant="solid" colorScheme="blue" onClick={() => submitPost()}>
+        <Button
+          variant="solid"
+          colorScheme="blue"
+          onClick={() => submitPost()}
+          isLoading={isLoading}
+          loadingText="Posting"
+        >
           Post
         </Button>
       </Flex>

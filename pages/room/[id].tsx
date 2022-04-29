@@ -5,10 +5,14 @@ import {
   GetStaticProps,
   GetStaticPropsContext
 } from 'next'
-import { __baseURL } from '@utils/constants'
-import MainLayout from '@components/layouts/MainLayout'
+
+import { Classroom as PrismaClassroom } from '@prisma/client'
 import { Box, Heading, Text } from '@chakra-ui/react'
-import { PostContentEditor } from '@components/Editor'
+
+import MainLayout from '@components/layouts/MainLayout'
+
+import { __baseURL } from '@utils/constants'
+import { PostContentEditor } from '@components/PostContentEditor'
 
 export const getStaticPaths: GetStaticPaths =
   async ({}: GetStaticPathsContext) => {
@@ -33,23 +37,25 @@ export const getStaticProps: GetStaticProps = async ({
   const request = await fetch(`${__baseURL}/api/space/${params?.id}`, {
     method: 'GET'
   })
-  const space = await request.json()
+  const room = await request.json()
 
-  return { props: { space } }
+  return { props: { room } }
 }
 
-const Classroom = ({ space }: any) => {
+type ClassroomProps = {
+  room: PrismaClassroom
+}
+
+export default function Classroom({ room }: ClassroomProps) {
   return (
     <Box>
       <Box mb="10">
-        <Heading mb={2}>{space?.name}</Heading>
-        {space.description && (
-          <Text color="gray.500" fontWeight="medium">
-            {space.description}
-          </Text>
-        )}
+        <Heading mb={2}>{room?.name}</Heading>
+        <Text color="gray.500" fontWeight="medium">
+          {room.description}
+        </Text>
       </Box>
-      <Box shadow="xs" maxW="container.sm" rounded="lg">
+      <Box shadow="xs" maxW="container.sm" mx="auto" rounded="lg">
         <PostContentEditor />
       </Box>
     </Box>
@@ -57,5 +63,3 @@ const Classroom = ({ space }: any) => {
 }
 
 Classroom.pageLayout = (page: ReactElement) => <MainLayout>{page}</MainLayout>
-
-export default Classroom
