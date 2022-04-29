@@ -7,9 +7,8 @@ import {
 } from 'next'
 import { __baseURL } from '@utils/constants'
 import MainLayout from '@components/layouts/MainLayout'
-import { Button, Heading, VStack } from '@chakra-ui/react'
-import { Form, Formik, FormikHelpers } from 'formik'
-import FormInput from '@components/FormInputs'
+import { Box, Heading, Text } from '@chakra-ui/react'
+import { PostContentEditor } from '@components/Editor'
 
 export const getStaticPaths: GetStaticPaths =
   async ({}: GetStaticPathsContext) => {
@@ -39,53 +38,24 @@ export const getStaticProps: GetStaticProps = async ({
   return { props: { space } }
 }
 
-// TODO: Add types here for space
-const SpaceContent = ({ space }: any) => {
-  console.log(space)
-
-  const initialValue = {
-    content: ''
-  }
-
-  const onSubmit = async (value: any, helper: FormikHelpers<any>) => {
-    const req = await fetch(
-      `/api/space/${space.id}/post/create?pid=${space.postId}&type=annoucement`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(value)
-      }
-    )
-    const annoucement = await req.json()
-  }
-
+const Classroom = ({ space }: any) => {
   return (
-    <>
-      <VStack>
-        <Heading>{space?.name}</Heading>
-        <Formik initialValues={initialValue} onSubmit={onSubmit}>
-          {({ isSubmitting }) => (
-            <Form id="post_form">
-              <FormInput name="content" label="content" />
-              <Button
-                type="submit"
-                isLoading={isSubmitting}
-                loadingText="Posting"
-              >
-                Post
-              </Button>
-            </Form>
-          )}
-        </Formik>
-      </VStack>
-    </>
+    <Box>
+      <Box mb="10">
+        <Heading mb={2}>{space?.name}</Heading>
+        {space.description && (
+          <Text color="gray.500" fontWeight="medium">
+            {space.description}
+          </Text>
+        )}
+      </Box>
+      <Box shadow="xs" maxW="container.sm" rounded="lg">
+        <PostContentEditor />
+      </Box>
+    </Box>
   )
 }
 
-SpaceContent.pageLayout = (page: ReactElement) => (
-  <MainLayout>{page}</MainLayout>
-)
+Classroom.pageLayout = (page: ReactElement) => <MainLayout>{page}</MainLayout>
 
-export default SpaceContent
+export default Classroom

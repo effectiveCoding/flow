@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
 import { Button } from '@components/overides/buttonStyleConfig'
+import { tiptap } from './overides/tiptapStyleConfig'
 
 type ProvidersProps = {
   session?: Session | null
@@ -19,6 +20,9 @@ const theme = extendTheme({
   },
   components: {
     Button
+  },
+  styles: {
+    global: (props: any) => ({ ...tiptap(props) })
   }
 })
 
