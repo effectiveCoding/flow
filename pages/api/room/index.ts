@@ -55,7 +55,7 @@ async function createRoom(
   }
 
   // if all fields is valid then proceed with the creation.
-  const space = await prisma.classroom.create({
+  const room = await prisma.classroom.create({
     data: {
       name: result.name,
       description: result.description,
@@ -63,7 +63,7 @@ async function createRoom(
     }
   })
 
-  res.json(space)
+  res.json(room)
 }
 
 async function getClassrooms(
@@ -73,16 +73,16 @@ async function getClassrooms(
   const session = await getSession({ req })
   const email = session?.user?.email!
 
-  const spaces = await prisma.classroom.findMany({
+  const rooms = await prisma.classroom.findMany({
     where: { owner: { email } },
     include: { owner: true }
   })
 
-  if (!spaces) {
+  if (!rooms) {
     return res.status(500).send({ error: INTERNAL_SERVER })
   }
 
-  res.json(spaces)
+  res.json(rooms)
 }
 
 export default handler

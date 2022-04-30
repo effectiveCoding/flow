@@ -16,12 +16,12 @@ import { PostContentEditor } from '@components/PostContentEditor'
 
 export const getStaticPaths: GetStaticPaths =
   async ({}: GetStaticPathsContext) => {
-    const request = await fetch(`${__baseURL}/api/space`, {
+    const getRooms = await fetch(`${__baseURL}/api/room`, {
       method: 'GET'
     })
-    const response = await request.json()
+    const rooms = await getRooms.json()
 
-    const paths = response.map((space: any) => ({
+    const paths = rooms.map((space: any) => ({
       params: { id: space.id }
     }))
 
@@ -34,9 +34,10 @@ export const getStaticPaths: GetStaticPaths =
 export const getStaticProps: GetStaticProps = async ({
   params
 }: GetStaticPropsContext) => {
-  const request = await fetch(`${__baseURL}/api/space/${params?.id}`, {
+  const request = await fetch(`${__baseURL}/api/room/${params?.id}`, {
     method: 'GET'
   })
+
   const room = await request.json()
 
   return { props: { room } }

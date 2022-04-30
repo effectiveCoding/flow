@@ -1,6 +1,9 @@
 import useSWR from 'swr'
 import React, { ReactElement } from 'react'
+
+import { __baseURL } from '@utils/constants'
 import MainLayout from '@components/layouts/MainLayout'
+
 import {
   Box,
   Flex,
@@ -16,14 +19,31 @@ import { BiPlus } from 'react-icons/bi'
 import { RoomGrid } from '@components/RoomGrid'
 import { RoomCard } from '@components/RoomCard'
 import { useRouter } from 'next/router'
+import { Classroom } from '@prisma/client'
 
-const Space = ({ spaces }: any) => {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const req = await fetch(`${__baseURL}/api/room`, {
+    method: 'GET'
+  })
+
+  const spaces = await req.json()
+
+  return {
+    props: { spaces }
+  }
+}
+
+type ClassListProps = {
+  rooms: Classroom[]
+}
+
+export default function ClassList({ rooms }: ClassListProps) {
   const router = useRouter()
 
   const { data } = useSWR(
-    '/api/space',
+    '/api/room',
     async key => await (await fetch(key)).json(),
-    { fallbackData: spaces }
+    { fallbackData: rooms }
   )
 
   return (
@@ -64,20 +84,6 @@ const Space = ({ spaces }: any) => {
   )
 }
 
-Space.pageLayout = (page: ReactElement) => (
+ClassList.pageLayout = (page: ReactElement) => (
   <MainLayout title="Capstone Proto - Home">{page}</MainLayout>
 )
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const req = await fetch(`${process.env.NEXTAUTH_URL}/api/space`, {
-    method: 'GET'
-  })
-
-  const spaces = await req.json()
-
-  return {
-    props: { spaces }
-  }
-}
-
-export default Space

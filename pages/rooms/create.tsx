@@ -39,7 +39,7 @@ const CreateClassroom = () => {
     value: ClassroomInput,
     helpers: FormikHelpers<ClassroomInput>
   ) => {
-    const request = await fetch('/api/space', {
+    const request = await fetch('/api/room', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ const CreateClassroom = () => {
     const data = await request.json()
 
     if (request.status === 200) {
-      mutate('/api/space')
+      mutate('/api/room')
       router.push('/rooms')
       toast({
         title: `Horay! classroom created successfuly`,
