@@ -6,9 +6,7 @@ import {
   Button,
   useDisclosure
 } from '@chakra-ui/react'
-import AvatarMenu from '@components/AvatarMenu'
 import Brand from '@components/Brand'
-import CreateSpaceModal from '@components/modal/CreateSpaceModal'
 import { BiBell, BiMenu } from 'react-icons/bi'
 
 interface MobileProps extends FlexProps {
@@ -47,7 +45,6 @@ const SidenavMobile = ({ onOpen, ...rest }: MobileProps) => {
             aria-label="open menu"
             icon={<BiBell />}
           />
-          <AvatarMenu />
         </HStack>
       </Flex>
     </>

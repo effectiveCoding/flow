@@ -1,22 +1,22 @@
 import React, { ReactNode } from 'react'
 import Head from 'next/head'
 
-import { Navbar } from '@components/navs/Navbar'
+import { Navbar } from '@components/navbar/Navbar'
 import { Box } from '@chakra-ui/react'
 
 type MainLayoutProps = {
   title?: string
   children: ReactNode
-  navCreateLayout?: boolean
+  returnButton?: boolean
 }
 
-const MainLayout = ({ title, children, navCreateLayout }: MainLayoutProps) => {
+const MainLayout = ({ title, children, returnButton }: MainLayoutProps) => {
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
-      <Navbar createLayout={navCreateLayout} />
+      <Navbar returnButton={returnButton} />
       <Box px={{ base: '4', md: '20' }}>{children}</Box>
     </>
   )
