@@ -4,22 +4,31 @@ import Head from 'next/head'
 import { Navbar } from '@components/navbar/Navbar'
 import { Box } from '@chakra-ui/react'
 
-type MainLayoutProps = {
-  title?: string
+export interface MainLayoutContainerProps {
   children: ReactNode
+}
+
+export function MainLayoutContainer({ children }: MainLayoutContainerProps) {
+  return (
+    <Box maxW="container.lg" mx="auto" my={{ base: 4, md: 5 }}>
+      <Box px={{ base: 4, md: 5 }}>{children}</Box>
+    </Box>
+  )
+}
+
+export interface MainLayoutProps extends MainLayoutContainerProps {
+  title?: string
   returnButton?: boolean
 }
 
-const MainLayout = ({ title, children, returnButton }: MainLayoutProps) => {
+export function MainLayout({ title, children, returnButton }: MainLayoutProps) {
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
       <Navbar returnButton={returnButton} />
-      <Box px={{ base: '4', md: '20' }}>{children}</Box>
+      <MainLayoutContainer>{children}</MainLayoutContainer>
     </>
   )
 }
-
-export default MainLayout

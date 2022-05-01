@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 
 import FormInput from '@components/FormInputs'
-import MainLayout from '@components/layouts/MainLayout'
+import { MainLayout } from '@components/layouts/MainLayout'
 
 import {
   Box,
@@ -120,7 +120,7 @@ const CreateClassroom = () => {
   )
 }
 CreateClassroom.pageLayout = (page: ReactElement) => (
-  <MainLayout title="Capstone Proto - Home" navCreateLayout={true}>
+  <MainLayout title="Capstone Proto - Home" returnButton={true}>
     {page}
   </MainLayout>
 )

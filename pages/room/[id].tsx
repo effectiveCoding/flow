@@ -9,7 +9,7 @@ import {
 import { Prisma } from '@prisma/client'
 import { Box, Heading, HStack, Stack, Text, VStack } from '@chakra-ui/react'
 
-import MainLayout from '@components/layouts/MainLayout'
+import { MainLayout } from '@components/layouts/MainLayout'
 
 import { __baseURL } from '@utils/constants'
 import { PostContent, PostContentEditor } from '@components/PostContentEditor'
@@ -124,4 +124,6 @@ export default function Classroom({ room }: ClassroomProps) {
   )
 }
 
-Classroom.pageLayout = (page: ReactElement) => <MainLayout>{page}</MainLayout>
+Classroom.pageLayout = (page: ReactElement) => (
+  <MainLayout returnButton={true}>{page}</MainLayout>
+)

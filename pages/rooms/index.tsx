@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import React, { ReactElement } from 'react'
 
 import { __baseURL } from '@utils/constants'
-import MainLayout from '@components/layouts/MainLayout'
+import { MainLayout } from '@components/layouts/MainLayout'
 
 import {
   Box,
@@ -85,5 +85,7 @@ export default function ClassList({ rooms }: ClassListProps) {
 }
 
 ClassList.pageLayout = (page: ReactElement) => (
-  <MainLayout title="Capstone Proto - Home">{page}</MainLayout>
+  <MainLayout title="Capstone Proto - Home" returnButton={true}>
+    {page}
+  </MainLayout>
 )

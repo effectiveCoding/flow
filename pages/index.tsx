@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import MainLayout from '@components/layouts/MainLayout'
+import { MainLayout } from '@components/layouts/MainLayout'
 
 const Home = () => {
   return (
