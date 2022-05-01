@@ -28,7 +28,9 @@ async function getRoom(
     where: { id },
     include: {
       owner: true,
-      posts: true
+      posts: {
+        include: { publisher: true }
+      }
     }
   })
 

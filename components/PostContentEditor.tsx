@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Image from 'next/image'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -16,6 +16,9 @@ import {
 } from 'react-icons/bi'
 import { useRouter } from 'next/router'
 
+import { generateHTML } from '@tiptap/html'
+import { useSWRConfig } from 'swr'
+
 const extensions: Extension[] = [
   StarterKit,
   Placeholder.configure({
@@ -30,6 +33,7 @@ const extensions: Extension[] = [
 
 export const PostContentEditor = () => {
   const { data: session } = useSession()
+  const { mutate } = useSWRConfig()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const router = useRouter()
 
@@ -41,21 +45,17 @@ export const PostContentEditor = () => {
     setIsLoading(true)
     if (editor) {
       const json = editor.getJSON()
-      json.type = 'post'
-
-      const request = await fetch(`/api/post/create?cid=${router.query.id}`, {
+      await fetch(`/api/post/create?cid=${router.query.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ content: json })
       })
-
-      const post = await request.json()
-
-      console.log(post)
-      setIsLoading(false)
+      editor.commands.clearContent()
+      mutate(`/api/room/${router.query.id}`)
     }
+    setIsLoading(false)
   }
 
   return (
@@ -116,4 +116,24 @@ export const PostContentEditor = () => {
       </Flex>
     </Flex>
   )
+}
+
+type PostContentProps = {
+  doc: any
+}
+
+export function PostContent({ doc }: PostContentProps) {
+  const content = useMemo(() => {
+    return generateHTML(doc, extensions)
+  }, [doc])
+
+  const editor = useEditor(
+    {
+      extensions,
+      content,
+      editable: false
+    },
+    [doc]
+  )
+  return <>{editor && <EditorContent editor={editor} />}</>
 }
