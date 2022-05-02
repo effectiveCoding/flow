@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import {
   GetStaticPaths,
   GetStaticPathsContext,
@@ -7,16 +7,20 @@ import {
 } from 'next'
 
 import { Prisma } from '@prisma/client'
-import { Box, Heading, HStack, Stack, Text, VStack } from '@chakra-ui/react'
+import { Box, Heading, HStack, Stack, Text } from '@chakra-ui/react'
 
 import { MainLayout } from '@components/layouts/MainLayout'
 
 import { __baseURL } from '@utils/constants'
-import { PostContent, PostContentEditor } from '@components/PostContentEditor'
+import { PostContent } from '@components/PostContentEditor'
+import { EditorProvider, useEditor } from 'contexts/EditorContext'
 
 import Image from 'next/image'
-import useSWR from 'swr'
+import useSWR, { useSWRConfig } from 'swr'
 import { useRouter } from 'next/router'
+import { EditorContent } from '@components/editor/EditorContent'
+import { ProfileCard } from '@components/Avatar'
+import { useSession } from 'next-auth/react'
 
 export const getStaticPaths: GetStaticPaths =
   async ({}: GetStaticPathsContext) => {
@@ -47,38 +51,78 @@ export const getStaticProps: GetStaticProps = async ({
   return { props: { room } }
 }
 
-type ClassroomProps = {
-  room: Prisma.ClassroomGetPayload<{
+export interface ClassroomQuery
+  extends Prisma.ClassroomGetPayload<{
     include: { posts: { include: { publisher: true } } }
-  }>
+  }> {}
+
+export interface ClassroomProps {
+  room: ClassroomQuery
 }
 
 export default function Classroom({ room }: ClassroomProps) {
   const router = useRouter()
-  const { data } = useSWR<
-    Prisma.ClassroomGetPayload<{
-      include: { posts: { include: { publisher: true } } }
-    }>
-  >(
+  const { editor } = useEditor()
+  const { mutate } = useSWRConfig()
+  const { data: session } = useSession()
+
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const { data } = useSWR<ClassroomQuery>(
     `/api/room/${router.query.id}`,
     async key => await (await fetch(key)).json(),
-    {
-      fallbackData: room,
-      refreshInterval: 1000
-    }
+    { fallbackData: room, refreshInterval: 1000 }
   )
+
+  async function submitPost() {
+    setIsLoading(true)
+
+    if (editor) {
+      const json = editor?.getJSON()
+      await fetch(`/api/post/create?cid=${router.query.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: json })
+      })
+
+      editor?.commands.clearContent()
+    }
+
+    mutate(`/api/room/${router.query.id}`)
+    setIsLoading(false)
+  }
 
   return (
     <Box>
-      <Box mb={10}>
+      <Box mb={{ base: 6, md: 7 }}>
         <Heading>{data?.name}</Heading>
         <Text color="gray.500" fontWeight="medium">
           {data?.description}
         </Text>
       </Box>
       <Box my={5}>
-        <Box shadow="xs" maxW="container.sm" mx="auto" rounded="lg">
-          <PostContentEditor />
+        <Box
+          bg="gray.50"
+          maxW="container.sm"
+          mx="auto"
+          shadow="xs"
+          p={{ base: 2, md: 3 }}
+          rounded="lg"
+        >
+          {session && (
+            <ProfileCard
+              image={session?.user?.image!}
+              name={session?.user?.name!}
+              role="Student"
+            />
+          )}
+          <EditorContent
+            onClick={() => submitPost()}
+            isLoading={isLoading}
+            loadingText="Posting"
+          />
         </Box>
         <Box pt={4} maxW="container.sm" mx="auto">
           <Stack w="full" spacing={5}>

@@ -2,7 +2,6 @@ import { mode } from '@chakra-ui/theme-tools'
 
 export const tiptap = (props: any) => ({
   '.ProseMirror': {
-    px: { base: '4', md: '5' },
     '> * + *': {},
     'p.is-editor-empty:first-of-type::before': {
       content: 'attr(data-placeholder)',

@@ -8,7 +8,8 @@
       "@db/*": ["db/*"],
       "@utils/*": ["utils/*"],
       "@styles/*": ["styles/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@contexts/*": ["contexts/*"]
     },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

@@ -7,6 +7,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
 import { Button } from '@components/overides/buttonStyleConfig'
 import { tiptap } from './overides/tiptapStyleConfig'
+import { EditorProvider } from 'contexts/EditorContext'
 
 type ProvidersProps = {
   session?: Session | null
@@ -29,7 +30,9 @@ const theme = extendTheme({
 const Providers = ({ children, session }: ProvidersProps) => {
   return (
     <SessionProvider session={session}>
-      <ChakraProvider theme={theme}>{children}</ChakraProvider>
+      <EditorProvider>
+        <ChakraProvider theme={theme}>{children}</ChakraProvider>
+      </EditorProvider>
     </SessionProvider>
   )
 }
