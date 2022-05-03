@@ -3,6 +3,7 @@ import React, { createContext, ReactNode, useContext } from 'react'
 import {
   EditorContentProps,
   JSONContent,
+  Extensions,
   useEditor as useTiptapEditor
 } from '@tiptap/react'
 
@@ -10,8 +11,21 @@ import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
 import Placeholder from '@tiptap/extension-placeholder'
 
+export const extensions: Extensions = [
+  StarterKit,
+  Underline,
+  Placeholder.configure({
+    placeholder: ({ node }) => {
+      return node.type.name === 'heading'
+        ? 'Document Title'
+        : 'Write something...'
+    },
+    showOnlyWhenEditable: true
+  })
+]
+
 export interface Editor extends EditorContentProps {
-  getJSONContent?: () => JSONContent
+  extensions?: Extensions
 }
 
 export const EditorContext = createContext<Editor>({ editor: null })
@@ -24,26 +38,11 @@ export interface EditorProviderProps {
 
 export function EditorProvider({ children }: EditorProviderProps) {
   const editor = useTiptapEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Placeholder.configure({
-        placeholder: ({ node }) => {
-          return node.type.name === 'heading'
-            ? 'Document Title'
-            : 'Write something...'
-        },
-        showOnlyWhenEditable: true
-      })
-    ]
+    extensions
   })
 
-  function getJSONContent(): JSONContent {
-    return editor?.getJSON()!
-  }
-
   return (
-    <EditorContext.Provider value={{ editor, getJSONContent }}>
+    <EditorContext.Provider value={{ editor, extensions }}>
       {children}
     </EditorContext.Provider>
   )

@@ -21,6 +21,9 @@ import { useRouter } from 'next/router'
 import { EditorContent } from '@components/editor/EditorContent'
 import { ProfileCard } from '@components/Avatar'
 import { useSession } from 'next-auth/react'
+import { PostContainer } from '@components/PostContainer'
+import { PostCard } from '@components/PostCard'
+import { DocContent } from '@components/editor/DocContent'
 
 export const getStaticPaths: GetStaticPaths =
   async ({}: GetStaticPathsContext) => {
@@ -125,43 +128,11 @@ export default function Classroom({ room }: ClassroomProps) {
           />
         </Box>
         <Box pt={4} maxW="container.sm" mx="auto">
-          <Stack w="full" spacing={5}>
+          <PostContainer>
             {data?.posts.map(post => (
-              <Box
-                key={post.id}
-                shadow="xs"
-                py={{ base: '4', md: '5' }}
-                rounded="lg"
-              >
-                <Box px={{ base: '4', md: '5' }}>
-                  <HStack pb={{ base: '5', md: '6' }} spacing={3}>
-                    <Box
-                      letterSpacing="0"
-                      rounded="md"
-                      fontSize="0"
-                      overflow="hidden"
-                    >
-                      <Image
-                        src={post.publisher.image!}
-                        width={40}
-                        height={40}
-                      />
-                    </Box>
-                    <Box alignItems="start">
-                      <Box as="h3" fontWeight="medium">
-                        {post.publisher?.name}
-                      </Box>
-                      <Text color="gray.500" fontSize="sm">
-                        {/* TODO: base on the roles assigned */}
-                        {'Instructor'}
-                      </Text>
-                    </Box>
-                  </HStack>
-                </Box>
-                <PostContent doc={post.content} />
-              </Box>
+              <PostCard key={post.id} doc={post.content} />
             ))}
-          </Stack>
+          </PostContainer>
         </Box>
       </Box>
     </Box>
