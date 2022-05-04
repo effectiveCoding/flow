@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   Menu,
   MenuButton,
   MenuDivider,
@@ -81,7 +82,7 @@ export function ProfileCard({ image, name, role }: ProfileCardProps) {
       <Box fontSize="0" overflow="hidden">
         <Avatar src={image} />
       </Box>
-      <Stack spacing={0} lineHeight="4" justify={'center'}>
+      <Flex lineHeight="4" justify={'center'}>
         <Text fontWeight="semibold" color="gray.700" letterSpacing="wider">
           {handleNames(name)}
         </Text>
@@ -89,7 +90,7 @@ export function ProfileCard({ image, name, role }: ProfileCardProps) {
         <Text fontSize="xs" color="gray.500" fontWeight="medium">
           @antonpalermo
         </Text>
-      </Stack>
+      </Flex>
     </Stack>
   )
 }

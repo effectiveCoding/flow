@@ -16,16 +16,18 @@ const links: MenuLink[] = [
 export interface NavbarProps extends BrandProps {}
 
 export function Navbar({ returnButton }: NavbarProps) {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
+  const loading = status === 'loading'
 
   return (
     <Box as="nav" bg="gray.50" shadow="xs" px={{ base: 4, md: 5 }}>
       <NavbarContainer>
         <Brand returnButton={returnButton} />
         <Stack direction="row">
-          {session ? (
-            <ProfileMenu src={session.user?.image!} links={links} />
-          ) : (
+          {session?.user && (
+            <ProfileMenu src={session.user.image!} links={links} />
+          )}
+          {!session && !loading && (
             <Button colorScheme="blue" onClick={() => signIn()}>
               Sign in
             </Button>

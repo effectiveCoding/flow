@@ -27,13 +27,11 @@ const theme = extendTheme({
   }
 })
 
-const Providers = ({ children, session }: ProvidersProps) => {
+const Providers = ({ children }: ProvidersProps) => {
   return (
-    <SessionProvider session={session}>
-      <EditorProvider>
-        <ChakraProvider theme={theme}>{children}</ChakraProvider>
-      </EditorProvider>
-    </SessionProvider>
+    <EditorProvider>
+      <ChakraProvider theme={theme}>{children}</ChakraProvider>
+    </EditorProvider>
   )
 }
 
