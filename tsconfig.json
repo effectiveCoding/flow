@@ -4,6 +4,7 @@
     "module": "commonjs",
     "baseUrl": ".",
     "paths": {
+      "@app/components": ["src/components/index.ts"],
       "@components/*": ["components/*"],
       "@db/*": ["db/*"],
       "@utils/*": ["utils/*"],

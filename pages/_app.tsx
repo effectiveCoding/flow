@@ -4,8 +4,9 @@ import '@styles/globals.css'
 import React, { ReactElement } from 'react'
 
 import { pageProps } from '@utils/pageProps'
-import Providers from '@components/Providers'
 import { SessionProvider } from 'next-auth/react'
+
+import { Providers } from '@app/components'
 
 const App = ({ Component, pageProps: { session, ...props } }: pageProps) => {
   const getPageLayout = Component.pageLayout ?? ((page: ReactElement) => page)

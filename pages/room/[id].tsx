@@ -9,21 +9,17 @@ import {
 import { Prisma } from '@prisma/client'
 import { Box, Heading, HStack, Stack, Text } from '@chakra-ui/react'
 
-import { MainLayout } from '@components/layouts/MainLayout'
+import { MainLayout } from 'src/components/layouts/MainLayout'
 
 import { __baseURL } from '@utils/constants'
-import { PostContent } from '@components/PostContentEditor'
-import { EditorProvider, useEditor } from 'contexts/EditorContext'
+import { useEditor } from 'contexts/EditorContext'
 
-import Image from 'next/image'
 import useSWR, { useSWRConfig } from 'swr'
 import { useRouter } from 'next/router'
-import { EditorContent } from '@components/editor/EditorContent'
-import { ProfileCard } from '@components/Avatar'
+import { EditorContent } from 'src/components/editor/EditorContent'
+import { ProfileCard } from 'src/components/Avatar'
 import { useSession } from 'next-auth/react'
-import { PostContainer } from '@components/PostContainer'
-import { PostCard } from '@components/PostCard'
-import { DocContent } from '@components/editor/DocContent'
+import { PostCard, PostContainer } from '@app/components'
 
 export const getStaticPaths: GetStaticPaths =
   async ({}: GetStaticPathsContext) => {

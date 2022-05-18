@@ -5,7 +5,7 @@ import { SessionProvider } from 'next-auth/react'
 
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
-import { Button } from '@components/overides/buttonStyleConfig'
+import { Button } from 'src/components/overides/buttonStyleConfig'
 import { tiptap } from './overides/tiptapStyleConfig'
 import { EditorProvider } from 'contexts/EditorContext'
 
@@ -27,12 +27,10 @@ const theme = extendTheme({
   }
 })
 
-const Providers = ({ children }: ProvidersProps) => {
+export const Providers = ({ children }: ProvidersProps) => {
   return (
     <EditorProvider>
       <ChakraProvider theme={theme}>{children}</ChakraProvider>
     </EditorProvider>
   )
 }
-
-export default Providers

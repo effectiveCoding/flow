@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import React, { ReactElement } from 'react'
 
 import { __baseURL } from '@utils/constants'
-import { MainLayout } from '@components/layouts/MainLayout'
+import { MainLayout } from 'src/components/layouts/MainLayout'
 
 import {
   Box,

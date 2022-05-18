@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Box, Button, Stack } from '@chakra-ui/react'
 import { signIn, useSession } from 'next-auth/react'
-import { MenuLink, ProfileMenu } from '@components/Avatar'
+import { MenuLink, ProfileMenu } from 'src/components/Avatar'
 
 import { Brand, BrandProps } from './Brand'
 import { NavbarContainer } from './NavbarContainer'

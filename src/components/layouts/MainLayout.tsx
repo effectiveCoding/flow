@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import Head from 'next/head'
 
-import { Navbar } from '@components/navbar/Navbar'
+import { Navbar } from 'src/components/navbar/Navbar'
 import { Box } from '@chakra-ui/react'
 
 export interface MainLayoutContainerProps {
