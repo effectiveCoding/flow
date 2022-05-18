@@ -7,7 +7,7 @@ import {
 } from '@tiptap/react'
 
 import { generateHTML } from '@tiptap/html'
-import { useEditor } from '@contexts/EditorContext'
+import { useEditor } from 'src/contexts/EditorContext'
 
 export interface DocContentProps {
   doc: any

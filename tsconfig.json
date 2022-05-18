@@ -4,16 +4,13 @@
     "module": "commonjs",
     "baseUrl": ".",
     "paths": {
-      "@app/constants": ["src/constants.ts"],
       "@app/components": ["src/components/index.ts"],
+      "@app/contexts": ["src/contexts/EditorContext.tsx"],
+      "@app/constants": ["src/constants.ts"],
       "@app/layouts": ["src/pageLayout.ts"],
       "@app/db-client": ["./prisma/prisma.ts"],
-      "@components/*": ["components/*"],
-      "@db/*": ["db/*"],
-      "@utils/*": ["public/utils/*"],
-      "@styles/*": ["styles/*"],
-      "@lib/*": ["lib/*"],
-      "@contexts/*": ["contexts/*"]
+      "@styles/*": ["src/styles/*"],
+      "@lib/*": ["lib/*"]
     },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

@@ -10,7 +10,7 @@ import {
   BiUnderline
 } from 'react-icons/bi'
 import type { IconType } from 'react-icons'
-import { useEditor } from 'contexts/EditorContext'
+import { useEditor } from 'src/contexts/EditorContext'
 
 export interface Menu {
   label: string

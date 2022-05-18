@@ -6,7 +6,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
 import { Button } from 'src/components/overides/buttonStyleConfig'
 import { tiptap } from './overides/tiptapStyleConfig'
-import { EditorProvider } from 'contexts/EditorContext'
+import { EditorProvider } from 'src/contexts/EditorContext'
 
 type ProvidersProps = {
   session?: Session | null

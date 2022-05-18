@@ -12,7 +12,7 @@ import { Box, Heading, HStack, Stack, Text } from '@chakra-ui/react'
 import { MainLayout } from 'src/components/layouts/MainLayout'
 
 import { __baseURL } from '@app/constants'
-import { useEditor } from 'contexts/EditorContext'
+import { useEditor } from 'src/contexts/EditorContext'
 
 import useSWR, { useSWRConfig } from 'swr'
 import { useRouter } from 'next/router'
