@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { Classroom } from '@prisma/client'
-import { prisma } from '@db/prisma'
-import { RESOURCE_NOT_FOUND, UNSUPPORTED_MEDIA } from '@utils/constants'
+import { prisma } from 'prisma/prisma'
+import { RESOURCE_NOT_FOUND, UNSUPPORTED_MEDIA } from 'public/utils/constants'
 
 type SpaceApiRequest = NextApiRequest & {
   query: { id: string }

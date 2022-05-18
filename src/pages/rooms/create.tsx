@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react'
 
-import FormInput from '@components/FormInputs'
-import { MainLayout } from 'src/components/layouts/MainLayout'
+import { FormInput, MainLayout } from '@app/components'
 
 import {
   Box,

@@ -3,7 +3,7 @@ import '@styles/globals.css'
 
 import React, { ReactElement } from 'react'
 
-import { pageProps } from '@utils/pageProps'
+import { pageProps } from '@app/layouts'
 import { SessionProvider } from 'next-auth/react'
 
 import { Providers } from '@app/components'

@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 
 import { Session } from 'next-auth'
-import { SessionProvider } from 'next-auth/react'
 
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 

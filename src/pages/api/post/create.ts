@@ -5,8 +5,8 @@ import { getSession } from 'next-auth/react'
 
 import { Post } from '@prisma/client'
 
-import { prisma } from '@db/prisma'
-import { INTERNAL_SERVER, UNSUPPORTED_MEDIA } from '@utils/constants'
+import { prisma } from '@app/db-client'
+import { INTERNAL_SERVER, UNSUPPORTED_MEDIA } from '@app/constants'
 
 type PostApiRequest = NextApiRequest & {
   body: {

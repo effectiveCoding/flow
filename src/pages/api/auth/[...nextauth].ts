@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
-import { prisma } from '@db/prisma'
+import { prisma } from '@app/db-client'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {

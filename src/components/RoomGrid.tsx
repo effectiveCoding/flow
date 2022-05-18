@@ -1,7 +1,7 @@
 import React from 'react'
 import { SimpleGrid, SimpleGridProps } from '@chakra-ui/react'
 
-export const RoomGrid = (props: SimpleGridProps) => {
+export function RoomGrid(props: SimpleGridProps) {
   const columns = React.useMemo(() => {
     return {
       base: Math.min(1),

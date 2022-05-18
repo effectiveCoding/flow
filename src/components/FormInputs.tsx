@@ -14,7 +14,7 @@ export type FormInputProps = HTMLAttributes<HTMLInputElement> & {
   helperContent?: string
 }
 
-const FormInput = ({ label, helperContent, ...props }: FormInputProps) => {
+export function FormInput({ label, helperContent, ...props }: FormInputProps) {
   const [field, { error, touched }] = useField(props)
 
   return (
@@ -26,5 +26,3 @@ const FormInput = ({ label, helperContent, ...props }: FormInputProps) => {
     </FormControl>
   )
 }
-
-export default FormInput

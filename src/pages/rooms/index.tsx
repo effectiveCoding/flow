@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import React, { ReactElement } from 'react'
 
-import { __baseURL } from '@utils/constants'
+import { __baseURL } from 'public/utils/constants'
 import { MainLayout } from 'src/components/layouts/MainLayout'
 
 import {
@@ -16,8 +16,7 @@ import {
 
 import { GetServerSideProps } from 'next'
 import { BiPlus } from 'react-icons/bi'
-import { RoomGrid } from '@components/RoomGrid'
-import { RoomCard } from '@components/RoomCard'
+import { RoomGrid, RoomCard } from '@app/components'
 import { useRouter } from 'next/router'
 import { Classroom } from '@prisma/client'
 

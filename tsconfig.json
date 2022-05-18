@@ -4,10 +4,13 @@
     "module": "commonjs",
     "baseUrl": ".",
     "paths": {
+      "@app/constants": ["src/constants.ts"],
       "@app/components": ["src/components/index.ts"],
+      "@app/layouts": ["src/pageLayout.ts"],
+      "@app/db-client": ["./prisma/prisma.ts"],
       "@components/*": ["components/*"],
       "@db/*": ["db/*"],
-      "@utils/*": ["utils/*"],
+      "@utils/*": ["public/utils/*"],
       "@styles/*": ["styles/*"],
       "@lib/*": ["lib/*"],
       "@contexts/*": ["contexts/*"]

@@ -4,8 +4,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
 import { Classroom } from '@prisma/client'
-import { prisma } from '@db/prisma'
-import { INTERNAL_SERVER, UNSUPPORTED_MEDIA } from '@utils/constants'
+import { prisma } from 'prisma/prisma'
+import { INTERNAL_SERVER, UNSUPPORTED_MEDIA } from 'public/utils/constants'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method = req.method

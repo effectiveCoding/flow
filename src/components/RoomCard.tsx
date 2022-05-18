@@ -19,7 +19,7 @@ type SpaceCardProps = {
   onClick?: () => void
 }
 
-export const RoomCard = ({ name, cover, onClick, root }: SpaceCardProps) => {
+export function RoomCard({ name, cover, onClick, root }: SpaceCardProps) {
   return (
     <Stack spacing={useBreakpointValue({ base: '4', md: '5' })} {...root}>
       <Box position="relative">
