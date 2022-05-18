@@ -7,8 +7,9 @@
       "@app/components": ["src/components/index.ts"],
       "@app/contexts": ["src/contexts/EditorContext.tsx"],
       "@app/constants": ["src/constants.ts"],
-      "@app/layouts": ["src/pageLayout.ts"],
       "@app/db-client": ["./prisma/prisma.ts"],
+      "@app/layouts": ["src/pageLayout.ts"],
+      "@app/themes": ["src/themes/index.ts"],
       "@styles/*": ["src/styles/*"],
       "@lib/*": ["lib/*"]
     },

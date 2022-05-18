@@ -3,21 +3,23 @@ import '@styles/globals.css'
 
 import React, { ReactElement } from 'react'
 
-import { pageProps } from '@app/layouts'
 import { SessionProvider } from 'next-auth/react'
+import { ChakraProvider } from '@chakra-ui/react'
 
-import { Providers } from '@app/components'
+import { theme } from '@app/themes'
+import { pageProps } from '@app/layouts'
 
-const App = ({ Component, pageProps: { session, ...props } }: pageProps) => {
+export default function App({
+  Component,
+  pageProps: { session, ...props }
+}: pageProps) {
   const getPageLayout = Component.pageLayout ?? ((page: ReactElement) => page)
 
   return (
     <SessionProvider session={session} refetchInterval={0}>
-      <Providers session={session}>
+      <ChakraProvider resetCSS theme={theme}>
         {getPageLayout(<Component {...props} />)}
-      </Providers>
+      </ChakraProvider>
     </SessionProvider>
   )
 }
-
-export default App
