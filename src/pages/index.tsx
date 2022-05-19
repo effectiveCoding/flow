@@ -2,11 +2,7 @@ import React, { ReactElement } from 'react'
 import { MainLayout } from '@app/components'
 
 const Home = () => {
-  return (
-    <>
-      <h1>Home</h1>
-    </>
-  )
+  return <h1>Home</h1>
 }
 
 Home.pageLayout = (page: ReactElement) => (

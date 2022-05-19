@@ -6,6 +6,8 @@ export * from './FormInputs'
 export * from './RoomCard'
 export * from './RoomGrid'
 export * from './Brand'
+export * from './Headline'
+
 export * from './navbar/Navbar'
 export * from './editor/DocContent'
 export * from './editor/Editor'

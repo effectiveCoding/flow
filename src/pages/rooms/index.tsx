@@ -1,30 +1,19 @@
 import useSWR from 'swr'
-import { useRouter } from 'next/router'
-import { GetServerSideProps } from 'next'
 import React, { ReactElement } from 'react'
 
-import { __baseURL } from '@app/constants'
-import {  } from 'src/components/layouts/MainLayout'
+import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next'
 
-import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Spacer,
-  Button,
-  HStack
-} from '@chakra-ui/react'
-
-import { BiPlus } from 'react-icons/bi'
-import { RoomGrid, RoomCard, MainLayout } from '@app/components'
 import { Classroom } from '@prisma/client'
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const req = await fetch(`${__baseURL}/api/room`, {
-    method: 'GET'
-  })
+import { Box, Flex, Spacer, Button } from '@chakra-ui/react'
+import { BiPlus } from 'react-icons/bi'
 
+import { __baseURL } from '@app/constants'
+import { RoomGrid, RoomCard, MainLayout, Headline } from '@app/components'
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const req = await fetch(`${__baseURL}/api/room`)
   const spaces = await req.json()
 
   return {
@@ -48,22 +37,16 @@ export default function ClassList({ rooms }: ClassListProps) {
   return (
     <Box>
       <Flex w="full" mb={10} display="flex" alignItems="center">
-        <Box>
-          <Heading mb={2}>My Classrooms</Heading>
-          <Text color="gray.500" fontWeight="medium">
-            Collection of classes you participated into!
-          </Text>
-        </Box>
+        <Headline
+          heading="My Classrooms"
+          description="Collection of classes you participated into!"
+        />
         <Spacer />
         <Button
-          colorScheme="cyan"
-          color="white"
           onClick={() => router.push('/rooms/create')}
+          leftIcon={<BiPlus />}
         >
-          <HStack spacing={2}>
-            <BiPlus />
-            <Text>Create</Text>
-          </HStack>
+          Create
         </Button>
       </Flex>
 

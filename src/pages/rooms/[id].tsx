@@ -14,7 +14,8 @@ import {
   EditorContent,
   ProfileCard,
   PostCard,
-  PostContainer
+  PostContainer,
+  Headline
 } from '@app/components'
 
 import { __baseURL } from '@app/constants'
@@ -44,10 +45,7 @@ export const getStaticPaths: GetStaticPaths =
 export const getStaticProps: GetStaticProps = async ({
   params
 }: GetStaticPropsContext) => {
-  const request = await fetch(`${__baseURL}/api/room/${params?.id}`, {
-    method: 'GET'
-  })
-
+  const request = await fetch(`${__baseURL}/api/room/${params?.id}`)
   const room = await request.json()
 
   return { props: { room } }
@@ -98,12 +96,7 @@ export default function Classroom({ room }: ClassroomProps) {
 
   return (
     <Box>
-      <Box mb={{ base: 6, md: 7 }}>
-        <Heading>{data?.name}</Heading>
-        <Text color="gray.500" fontWeight="medium">
-          {data?.description}
-        </Text>
-      </Box>
+      <Headline heading={data?.name!} description={data?.description!} />
       <Box my={5}>
         <Box
           bg="gray.50"

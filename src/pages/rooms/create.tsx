@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { useSWRConfig } from 'swr'
 import { Form, Formik, FormikHelpers } from 'formik'
-import { FormInput, MainLayout } from '@app/components'
+import { FormInput, MainLayout, Headline } from '@app/components'
 
 type ClassroomInput = {
   name: string
@@ -69,12 +69,10 @@ const CreateClassroom = () => {
     <Box>
       <Box maxW={'lg'} mx="auto">
         <HStack pb={{ base: '5', md: '10' }}>
-          <Box>
-            <Heading mb={2}>Create new classroom</Heading>
-            <Text color="gray.500" fontWeight="medium">
-              To start creating a room, just provide the required details below
-            </Text>
-          </Box>
+          <Headline
+            heading="Create new classroom"
+            description="Provide the required details to create new classroom."
+          />
         </HStack>
 
         <Formik initialValues={initialValue} onSubmit={onSubmit}>

@@ -9,7 +9,7 @@
       "@app/constants": ["src/constants.ts"],
       "@app/db-client": ["./prisma/prisma.ts"],
       "@app/layouts": ["src/pageLayout.ts"],
-      "@app/themes": ["src/themes/index.ts"],
+      "@app/themes": ["src/theme.ts"],
       "@styles/*": ["src/styles/*"],
       "@lib/*": ["lib/*"]
     },
