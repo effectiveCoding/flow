@@ -5,7 +5,7 @@ import { getSession } from 'next-auth/react'
 
 import { Classroom } from '@prisma/client'
 import { prisma } from 'prisma/prisma'
-import { INTERNAL_SERVER, UNSUPPORTED_MEDIA } from 'public/utils/constants'
+import { INTERNAL_SERVER, UNSUPPORTED_MEDIA } from '@app/constants'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method = req.method

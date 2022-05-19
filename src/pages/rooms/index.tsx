@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import React, { ReactElement } from 'react'
 
-import { __baseURL } from 'public/utils/constants'
+import { __baseURL } from '@app/constants'
 import { MainLayout } from 'src/components/layouts/MainLayout'
 
 import {
