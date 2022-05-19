@@ -8,6 +8,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 import { theme } from '@app/themes'
 import { pageProps } from '@app/layouts'
+import { EditorProvider } from '@app/contexts'
 
 export default function App({
   Component,
@@ -18,7 +19,9 @@ export default function App({
   return (
     <SessionProvider session={session} refetchInterval={0}>
       <ChakraProvider resetCSS theme={theme}>
-        {getPageLayout(<Component {...props} />)}
+        <EditorProvider>
+          {getPageLayout(<Component {...props} />)}
+        </EditorProvider>
       </ChakraProvider>
     </SessionProvider>
   )
