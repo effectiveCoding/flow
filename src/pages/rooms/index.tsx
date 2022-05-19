@@ -1,8 +1,10 @@
 import useSWR from 'swr'
+import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next'
 import React, { ReactElement } from 'react'
 
 import { __baseURL } from '@app/constants'
-import { MainLayout } from 'src/components/layouts/MainLayout'
+import {  } from 'src/components/layouts/MainLayout'
 
 import {
   Box,
@@ -14,10 +16,8 @@ import {
   HStack
 } from '@chakra-ui/react'
 
-import { GetServerSideProps } from 'next'
 import { BiPlus } from 'react-icons/bi'
-import { RoomGrid, RoomCard } from '@app/components'
-import { useRouter } from 'next/router'
+import { RoomGrid, RoomCard, MainLayout } from '@app/components'
 import { Classroom } from '@prisma/client'
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -84,7 +84,7 @@ export default function ClassList({ rooms }: ClassListProps) {
 }
 
 ClassList.pageLayout = (page: ReactElement) => (
-  <MainLayout title="Capstone Proto - Home" returnButton={true}>
+  <MainLayout title="Capstone Proto - Home" backButton={true}>
     {page}
   </MainLayout>
 )

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Box, BoxProps } from '@chakra-ui/react'
-import { ProfileCard } from './Avatar'
 import { useSession } from 'next-auth/react'
-import { DocContent } from './editor/DocContent'
+
+import { Box, BoxProps } from '@chakra-ui/react'
+import { ProfileCard, DocContent } from '@app/components'
 
 export interface PostCardProps extends BoxProps {
   doc: any

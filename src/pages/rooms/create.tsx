@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react'
-
-import { FormInput, MainLayout } from '@app/components'
+import { useRouter } from 'next/router'
 
 import {
   Box,
@@ -17,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { useSWRConfig } from 'swr'
 import { Form, Formik, FormikHelpers } from 'formik'
-import { useRouter } from 'next/router'
+import { FormInput, MainLayout } from '@app/components'
 
 type ClassroomInput = {
   name: string
@@ -119,7 +118,7 @@ const CreateClassroom = () => {
   )
 }
 CreateClassroom.pageLayout = (page: ReactElement) => (
-  <MainLayout title="Capstone Proto - Home" returnButton={true}>
+  <MainLayout title="Capstone Proto - Home" backButton={true}>
     {page}
   </MainLayout>
 )

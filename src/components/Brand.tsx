@@ -1,14 +1,6 @@
 import React from 'react'
-import { Text, TextProps } from '@chakra-ui/react'
+import { Heading, HeadingProps } from '@chakra-ui/react'
 
-type BrandProps = TextProps & {}
-
-const Brand = ({ fontSize, fontWeight, ...props }: BrandProps) => {
-  return (
-    <Text fontSize={fontSize} fontWeight={fontWeight} {...props}>
-      Capstone
-    </Text>
-  )
+export function Brand({ ...props }: HeadingProps) {
+  return <Heading as="h4" size="sm" fontWeight="semibold" {...props} />
 }
-
-export default Brand

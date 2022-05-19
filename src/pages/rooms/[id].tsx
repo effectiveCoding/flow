@@ -139,5 +139,5 @@ export default function Classroom({ room }: ClassroomProps) {
 }
 
 Classroom.pageLayout = (page: ReactElement) => (
-  <MainLayout returnButton={true}>{page}</MainLayout>
+  <MainLayout backButton={true}>{page}</MainLayout>
 )

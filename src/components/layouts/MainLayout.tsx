@@ -1,34 +1,42 @@
-import React, { ReactNode } from 'react'
+import React, { createElement, ReactNode } from 'react'
 import Head from 'next/head'
 
-import { Navbar } from 'src/components/navbar/Navbar'
-import { Box } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 
-export interface MainLayoutContainerProps {
-  children: ReactNode
-}
+import { BiArrowBack } from 'react-icons/bi'
+import { Brand, Navbar } from '@app/components'
+import { Box, IconButton } from '@chakra-ui/react'
 
-export function MainLayoutContainer({ children }: MainLayoutContainerProps) {
-  return (
-    <Box maxW="container.lg" mx="auto" my={{ base: 4, md: 5 }}>
-      <Box px={{ base: 4, md: 5 }}>{children}</Box>
-    </Box>
-  )
-}
-
-export interface MainLayoutProps extends MainLayoutContainerProps {
+export function MainLayout({
+  title,
+  children,
+  backButton
+}: {
   title?: string
-  returnButton?: boolean
-}
+  children: ReactNode
+  backButton?: boolean
+}) {
+  const router = useRouter()
 
-export function MainLayout({ title, children, returnButton }: MainLayoutProps) {
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
-      <Navbar returnButton={returnButton} />
-      <MainLayoutContainer>{children}</MainLayoutContainer>
+      <Navbar>
+        {backButton && (
+          <IconButton
+            variant="ghost"
+            icon={createElement(BiArrowBack)}
+            aria-label="return button"
+            onClick={() => router.back()}
+          />
+        )}
+        <Brand>Capstone</Brand>
+      </Navbar>
+      <Box maxW="container.lg" mx="auto" my={{ base: 4, md: 5 }}>
+        <Box px={{ base: 4, md: 5 }}>{children}</Box>
+      </Box>
     </>
   )
 }

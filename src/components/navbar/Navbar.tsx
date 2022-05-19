@@ -1,38 +1,28 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
-import { Box, Button, Stack } from '@chakra-ui/react'
-import { signIn, useSession } from 'next-auth/react'
-import { MenuLink, ProfileMenu } from 'src/components/Avatar'
+import { AvatarMenu } from '@app/components'
+import { Box, Flex, FlexProps, Stack } from '@chakra-ui/react'
 
-import { Brand, BrandProps } from './Brand'
-import { NavbarContainer } from './NavbarContainer'
+export function NavbarContainer({ ...props }: FlexProps) {
+  return (
+    <Flex
+      maxW="container.xl"
+      mx="auto"
+      justifyContent="space-between"
+      py={{ base: 2, md: 3 }}
+      {...props}
+    />
+  )
+}
 
-const links: MenuLink[] = [
-  {
-    label: 'Classrooms',
-    href: '/rooms'
-  }
-]
-export interface NavbarProps extends BrandProps {}
-
-export function Navbar({ returnButton }: NavbarProps) {
-  const { data: session, status } = useSession()
-  const loading = status === 'loading'
-
+export function Navbar({ children }: { children: ReactNode }) {
   return (
     <Box as="nav" bg="gray.50" shadow="xs" px={{ base: 4, md: 5 }}>
       <NavbarContainer>
-        <Brand returnButton={returnButton} />
-        <Stack direction="row">
-          {session?.user && (
-            <ProfileMenu src={session.user.image!} links={links} />
-          )}
-          {!session && !loading && (
-            <Button colorScheme="blue" onClick={() => signIn()}>
-              Sign in
-            </Button>
-          )}
+        <Stack direction="row" alignItems="center" spacing={{ base: 2, md: 3 }}>
+          {children}
         </Stack>
+        <AvatarMenu />
       </NavbarContainer>
     </Box>
   )
