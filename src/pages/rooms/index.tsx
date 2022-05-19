@@ -74,7 +74,7 @@ export default function ClassList({ rooms }: ClassListProps) {
             name={space?.name}
             cover={'/doodle.jpg'}
             onClick={() => {
-              router.push(`/room/${space.id}`)
+              router.push(`/rooms/${space.id}`)
             }}
           />
         ))}
