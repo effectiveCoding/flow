@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import NextAuth from 'next-auth'
+import NextAuth, { Session } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
 import { prisma } from '@app/db-client'
@@ -18,6 +18,16 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     ],
     session: {
       strategy: 'jwt'
+    },
+    callbacks: {
+      jwt: async ({ token, user }) => {
+        user && (token.user = user)
+        return token
+      },
+      session: async ({ session, token }) => {
+        if (token.user) session.user = token.user as any
+        return session
+      }
     }
   })
 }

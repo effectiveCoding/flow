@@ -40,14 +40,10 @@ model Session {
   @@map("sessions")
 }
 
-enum Role {
-  student
-  instructor
-}
-
 model User {
   id             String      @id @default(cuid())
   name           String?
+  username       String?
   email          String?     @unique
   emailVerified  DateTime?
   image          String?
@@ -56,7 +52,7 @@ model User {
   handledClasses Classroom[] @relation("handledClasses")
   classes        Classroom[] @relation("classes", references: [id])
   posts          Post[]
-  instructor     Boolean     @default(false)
+  isAdmin        Boolean     @default(false)
 
   @@map("users")
 }
