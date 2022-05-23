@@ -9,10 +9,12 @@ import { Box, IconButton } from '@chakra-ui/react'
 
 export function MainLayout({
   title,
+  branding,
   children,
   backButton
 }: {
   title?: string
+  branding?: string
   children: ReactNode
   backButton?: boolean
 }) {
@@ -32,7 +34,7 @@ export function MainLayout({
             onClick={() => router.back()}
           />
         )}
-        <Brand>Capstone</Brand>
+        <Brand>{branding}</Brand>
       </Navbar>
       <Box maxW="container.lg" mx="auto" my={{ base: 4, md: 5 }}>
         <Box px={{ base: 4, md: 5 }}>{children}</Box>

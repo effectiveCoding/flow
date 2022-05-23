@@ -1,29 +1,33 @@
 import React, { ReactElement } from 'react'
 import { useRouter } from 'next/router'
 
-import {
-  Box,
-  Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Heading,
-  HStack,
-  Text,
-  Textarea,
-  useToast,
-  VStack
-} from '@chakra-ui/react'
+import { Box, useToast } from '@chakra-ui/react'
 import { useSWRConfig } from 'swr'
-import { Form, Formik, FormikHelpers } from 'formik'
-import { FormInput, MainLayout, Headline } from '@app/components'
+import { FormikHelpers } from 'formik'
+import { MainLayout } from '@app/components'
+import { ClassMemberSelect } from 'src/components/classroom/ClassMemberSelect'
+import { GetServerSideProps } from 'next'
+import { prisma } from '@app/db-client'
+import { User } from '@prisma/client'
 
 type ClassroomInput = {
   name: string
   description: string
 }
 
-const CreateClassroom = () => {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const users = await prisma.user.findMany()
+
+  return {
+    props: { users }
+  }
+}
+
+export interface CreateClassroomProps {
+  users: User[]
+}
+
+export default function CreateClassroom({ users }: CreateClassroomProps) {
   const initialValue: ClassroomInput = {
     name: '',
     description: ''
@@ -68,57 +72,18 @@ const CreateClassroom = () => {
   return (
     <Box>
       <Box maxW={'lg'} mx="auto">
-        <HStack pb={{ base: '5', md: '10' }}>
-          <Headline
-            heading="Create new classroom"
-            description="Provide the required details to create new classroom."
-          />
-        </HStack>
-
-        <Formik initialValues={initialValue} onSubmit={onSubmit}>
-          {({ values, handleChange, isSubmitting }) => (
-            <Form id="classroomForm">
-              <VStack spacing={6}>
-                <FormInput
-                  name="name"
-                  label="Name"
-                  helperContent="Assign you desired name for your classroom."
-                />
-                <FormControl mt="3">
-                  <FormLabel htmlFor="description">Description</FormLabel>
-                  <Textarea
-                    id="description"
-                    name="description"
-                    value={values.description}
-                    onChange={handleChange}
-                    placeholder="Description (optional)"
-                  />
-                  <FormHelperText>
-                    Description is optional but we encourage you to provide one
-                  </FormHelperText>
-                </FormControl>
-                <Button
-                  type="submit"
-                  w="full"
-                  variant="solid"
-                  colorScheme="blue"
-                  isLoading={isSubmitting}
-                  loadingText="Creating"
-                >
-                  Create classroom
-                </Button>
-              </VStack>
-            </Form>
-          )}
-        </Formik>
+        {/* <ClassInfo onSubmit={onSubmit} /> */}
+        <ClassMemberSelect users={users} />
       </Box>
     </Box>
   )
 }
 CreateClassroom.pageLayout = (page: ReactElement) => (
-  <MainLayout title="Capstone Proto - Home" backButton={true}>
+  <MainLayout
+    title="Capstone Proto - Create class"
+    branding="Create new classroom"
+    backButton={true}
+  >
     {page}
   </MainLayout>
 )
-
-export default CreateClassroom

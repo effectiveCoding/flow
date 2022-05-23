@@ -16,3 +16,6 @@ export * from './editor/EditorMenu'
 export * from './avatar/Avatar'
 export * from './avatar/AvatarMenu'
 export * from './profile/ProfileCard'
+
+export * from './classroom/ClassInfo'
+export * from './classroom/ClassMemberSelect'
